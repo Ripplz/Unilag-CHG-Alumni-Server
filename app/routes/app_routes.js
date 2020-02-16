@@ -1,48 +1,53 @@
 module.exports = function(app, db) {
-	
-/*
+  /*
 APP POST
 */
 
-	app.post('/add_alumnus', (req, res) => {
+  app.post("/add_alumnus", (req, res) => {
     const newAlumnus = {
       lastName: req.body.lastName,
-      firstName: req.body.firstName,
       otherNames: req.body.otherNames,
       graduationYear: req.body.graduationYear,
+      degree: req.body.degree,
       phone: req.body.phone,
       email: req.body.email,
-      street: req.body.street,
+      address: req.body.address,
       town: req.body.town,
       country: req.body.country,
-      photo: req.body.photo
+      password: req.body.password,
+      passwordHint: req.body.passwordHint,
+      photo: req.body.photo,
+      throwbackPhotos: req.body.throwbackPhotos,
+      throwbackPhotosPrivacy: req.body.throwbackPhotosPrivacy,
+      comments: req.body.comments
     };
 
-    db.collection('alumni').insert(newAlumnus, (err, result) => {
-      if (err) { 
-        res.send({ 'error': 'An error has occurred' }); 
+    db.collection("alumni").insertOne(newAlumnus, (err, result) => {
+      if (err) {
+        res.send({ error: "An error has occurred" });
       } else {
-      	res.send(result.ops[0]);
+        res.send(result.ops[0]);
       }
     });
   });
 
-/*
+  /*
 END OF APP POST
 */
 
-/*
+  /*
 BEGINNING OF APP GET
 */
 
-	app.get('/alumni', (req, res) => {
-	  	const result = db.collection('alumni').find({}).toArray((err, item) => {
-	  		if (err) console.log(err);
-		    res.send(item);
-	  	})
-	});
+  app.get("/alumni", (req, res) => {
+    db.collection("alumni")
+      .find({})
+      .toArray((err, item) => {
+        if (err) console.log(err);
+        res.send(item);
+      });
+  });
 
-/*END OF APP GET
-*/
-
-}
+  /*END OF APP GET
+   */
+};

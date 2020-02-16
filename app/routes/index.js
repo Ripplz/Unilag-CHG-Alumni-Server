@@ -1,5 +1,5 @@
-const myprodgRoutes = require('./myprodg_routes');
+const appRoutes = require('./app_routes');
 
 module.exports = function(app, db) {
-	myprodgRoutes(app, db);
+	appRoutes(app, db);
 }

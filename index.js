@@ -1,26 +1,34 @@
-const express = require('express');
-const MongoClient = require('mongodb').MongoClient;
-const bodyParser = require('body-parser');
+const express = require("express");
+const MongoClient = require("mongodb").MongoClient;
+const bodyParser = require("body-parser");
 
 const app = express();
 
 const port = 3005; // because I'm bad like that..
 
-let db = require('./config/db');
+let db = require("./config/db");
 
-
-app.use(function(req, res, next) {
-	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-	next();
+const client = new MongoClient(db.url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 });
 
-app.use(bodyParser.json());
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 
-MongoClient.connect(db.url, { useNewUrlParser: true }, (err, database) => {
-	if (err) return console.log(err);
+app.use(bodyParser.json({limit: '50mb'}));
 
-	db = database.db("unilag-chg-alumni");
-	require('./app/routes')(app, db);
-	app.listen(port, () => console.log('Hello there'));
+client.connect(function(err) {
+  if (err) return console.log(err);
+
+  db = client.db("unilag-chg-alumni");
+
+  require("./app/routes")(app, db);
+  app.listen(port, () => console.log("Hello there"));
 });
