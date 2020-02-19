@@ -48,6 +48,22 @@ BEGINNING OF APP GET
       });
   });
 
+  app.get("/get_alumnus", (req, res) => {
+    const email = req.query.email;
+    const password = req.query.password;
+    db.collection("alumni")
+      .find({ email: email, password: password })
+      .toArray((err, item) => {
+        if (err) {
+          console.log(err);
+          res.sendStatus(401);
+        } else {
+          console.log(item);
+          res.send(item);
+        }
+      });
+  });
+
   /*END OF APP GET
    */
 };
