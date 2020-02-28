@@ -7,19 +7,14 @@ APP POST
     const newAlumnus = {
       lastName: req.body.lastName,
       otherNames: req.body.otherNames,
-      graduationYear: req.body.graduationYear,
-      degree: req.body.degree,
       phone: req.body.phone,
       email: req.body.email,
       address: req.body.address,
       town: req.body.town,
       country: req.body.country,
       password: req.body.password,
-      passwordHint: req.body.passwordHint,
       photo: req.body.photo,
-      throwbackPhotos: req.body.throwbackPhotos,
-      throwbackPhotosPrivacy: req.body.throwbackPhotosPrivacy,
-      comments: req.body.comments
+      degrees: req.body.degrees
     };
 
     db.collection("alumni").insertOne(newAlumnus, (err, result) => {
